@@ -6,14 +6,20 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Net.Http;
 
+using Microsoft.Extensions.Logging;
+
 namespace aiof.portal.Services
 {
     public class AuthClient
     {
+        private readonly ILogger _logger;
         private readonly HttpClient _client;
 
-        public AuthClient(HttpClient client)
+        public AuthClient(
+            ILogger<AuthClient> logger,
+            HttpClient client)
         {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _client = client ?? throw new ArgumentNullException(nameof(client));
 
             _client.BaseAddress = new Uri("http://localhost:5000");
@@ -23,10 +29,18 @@ namespace aiof.portal.Services
             string username,
             string password)
         {
-            var req = JsonSerializer.Serialize(new { username, password });
-            var resp = await _client.PostAsync("/auth/token", new StringContent(req, Encoding.UTF8, "application/json"));
+            try
+            {
+                var req = JsonSerializer.Serialize(new { username, password });
+                var resp = await _client.PostAsync("/auth/token", new StringContent(req, Encoding.UTF8, "application/json"));
 
-            return resp;
+                return resp;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                throw;
+            }
         }
     }
 }

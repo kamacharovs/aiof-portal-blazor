@@ -9,7 +9,7 @@ namespace aiof.portal.Models
 {
     public class User
     {
-        [JsonPropertyName("id")]
+        [JsonPropertyName("user.id")]
         public int Id { get; set; }
 
         [JsonPropertyName("publicKey")]

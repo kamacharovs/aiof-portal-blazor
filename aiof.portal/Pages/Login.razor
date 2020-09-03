@@ -3,6 +3,8 @@
 @inject AuthClient _client
 @inject NavigationManager _navigationManager
 
+@inject ILocalStorageService _storageService
+
 <div class="container">
     <div class="col-md-6 offset-md-3 col-xs-12  text-center">
         <div class="round-border-box tiny-padding">
@@ -50,6 +52,9 @@
         if (resp.IsSuccessStatusCode)
         {
             var user = JsonSerializer.Deserialize<User>(await resp.Content.ReadAsStringAsync());
+
+            await _storageService.SetItemAsync(nameof(User).ToLowerInvariant(), user);
+            //await authenticationStateProvider.GetAuthenticationStateAsync();
 
             _navigationManager.NavigateTo("/");
         }
