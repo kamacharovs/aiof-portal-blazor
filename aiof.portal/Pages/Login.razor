@@ -1,6 +1,7 @@
 @page "/login"
 
 @inject AuthClient _client
+@inject NavigationManager _navigationManager
 
 <div class="container">
     <div class="col-md-6 offset-md-3 col-xs-12  text-center">
@@ -45,6 +46,12 @@
 
     private async Task LoginAsync()
     {
-        await _client.LoginAsync(username, password);
+        var resp = await _client.LoginAsync(username, password);
+        if (resp.IsSuccessStatusCode)
+        {
+            var user = JsonSerializer.Deserialize<User>(await resp.Content.ReadAsStringAsync());
+
+            _navigationManager.NavigateTo("/");
+        }
     }
 }

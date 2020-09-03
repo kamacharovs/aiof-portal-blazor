@@ -19,14 +19,14 @@ namespace aiof.portal.Services
             _client.BaseAddress = new Uri("http://localhost:5000");
         }
 
-        public async Task<object> LoginAsync(
+        public async Task<HttpResponseMessage> LoginAsync(
             string username,
             string password)
         {
             var req = JsonSerializer.Serialize(new { username, password });
             var resp = await _client.PostAsync("/auth/token", new StringContent(req, Encoding.UTF8, "application/json"));
 
-            return resp.EnsureSuccessStatusCode();
+            return resp;
         }
     }
 }
