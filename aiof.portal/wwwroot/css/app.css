@@ -181,3 +181,51 @@ app {
         display: block;
     }
 }
+
+#round-border-box {
+    background: #ebebeb;
+    display: block;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    box-shadow: 0 8px 14px 0 rgba(0,0,0,.06);
+    min-width: 264px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#tiny-padding {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+#cool-link {
+    margin-bottom: 10px;
+  display: inline-block;
+  color: #000;
+  text-decoration: none;
+}
+#cool-link .after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 1px;
+    background: #000;
+    transition: width .3s;
+}
+#cool-link .hover {
+    text-decoration: none;
+    color: inherit;
+}
+#cool-link .hover.after {
+    width: 100%;
+    transition: width .3s;
+}
+#cool-link .focus .visited .link .active {
+    text-decoration: none;
+}
+#cool-link .outer {
+    display: block;
+}
