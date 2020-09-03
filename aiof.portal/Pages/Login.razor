@@ -2,7 +2,7 @@
 
 @inject AuthClient _client
 @inject NavigationManager _navigationManager
-
+@inject AuthenticationStateProvider  _authenticationStateProvider
 @inject ILocalStorageService _storageService
 
 <div class="container">
@@ -54,7 +54,7 @@
             var user = JsonSerializer.Deserialize<User>(await resp.Content.ReadAsStringAsync());
 
             await _storageService.SetItemAsync(nameof(User).ToLowerInvariant(), user);
-            //await authenticationStateProvider.GetAuthenticationStateAsync();
+            await _authenticationStateProvider.GetAuthenticationStateAsync();
 
             _navigationManager.NavigateTo("/");
         }
