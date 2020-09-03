@@ -1,6 +1,6 @@
 @page "/login"
 
-@inject HttpClient _client
+@inject AuthClient _client
 
 <div class="container">
     <div class="col-md-6 offset-md-3 col-xs-12  text-center">
@@ -45,16 +45,6 @@
 
     private async Task LoginAsync()
     {
-        var url = "http://localhost:5000";
-
-        var client = new HttpClient();
-        client.BaseAddress = new Uri(url);
-
-        var req = System.Text.Json.JsonSerializer.Serialize(new { username, password });
-        var resp = await client.PostAsync("/auth/token", new StringContent(req, System.Text.Encoding.UTF8, "application/json"));
-
-        resp.EnsureSuccessStatusCode();
-
-        Console.WriteLine($"username: {username}, password: {password}");
+        await _client.LoginAsync(username, password);
     }
 }
