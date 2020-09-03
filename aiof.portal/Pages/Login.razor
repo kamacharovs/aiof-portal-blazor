@@ -1,31 +1,60 @@
 @page "/login"
 
-    <div class="container">
-        <div class="col-md-6 offset-md-3 col-xs-12 text-center">
-            <h1>Sign in</h1>
-            <form>
+@inject HttpClient _client
+
+<div class="container">
+    <div class="col-md-6 offset-md-3 col-xs-12  text-center">
+        <div class="round-border-box tiny-padding">
+            <p>
+                <h1>Sign in</h1>
+                <a href="/" class="cool-link">Need an account?</a>
+            </p>
+            <p class="text-muted" style="font-size: 12px;">
+                One account for everything finance
+            </p>
+            <form class="text-left">
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
+                    <label class="inline-label">Username</label>
+                    <input type="text" class="form-control" id="username" @bind="username">
                 </div>
+
+                <div class="form-group">
+                    <label class="inline-label">Password</label>
+                    <input type="password" class="form-control" id="password" @bind="password">
+                </div>
+
                 <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    <label class="form-check-label" for="exampleCheck1">Remember me</label>
                 </div>
-                <button type="submit" class="btn btn-primary" @onclick="CallLogin">Submit</button>
-                <a href="/" class="cool-link">Cool link</a>
+                <button type="submit" class="btn btn-primary btn-block" @onclick="LoginAsync">Sign in</button>
+                <p class="text-muted text-center" style="font-size: 12px;">
+                    <br />
+                    <i>By clicking Sign In, you agree to our <a href="/">Terms</a> and have read and acknowledge our <a href="/">US Privacy Statement</a>.</i>
+                </p>
             </form>
         </div>
     </div>
+</div>
 
 
 @code
 {
-        private string username;
-        private string password;
+    private string username;
+    private string password;
 
-        private void CallLogin()
-        {
-            Console.WriteLine($"username: {username}, password: {password}");
-        }
+    private async Task LoginAsync()
+    {
+        var url = "http://localhost:5000";
+
+        var client = new HttpClient();
+        client.BaseAddress = new Uri(url);
+
+        var req = System.Text.Json.JsonSerializer.Serialize(new { username, password });
+        var resp = await client.PostAsync("/auth/token", new StringContent(req, System.Text.Encoding.UTF8, "application/json"));
+
+        resp.EnsureSuccessStatusCode();
+
+        Console.WriteLine($"username: {username}, password: {password}");
+    }
 }
