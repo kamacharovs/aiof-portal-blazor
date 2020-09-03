@@ -1,6 +1,6 @@
 {
-  "name": "aiof.portal",
-  "short_name": "aiof.portal",
+  "name": "Aiof",
+  "short_name": "aiof",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
