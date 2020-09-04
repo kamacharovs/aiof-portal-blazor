@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Blazored.LocalStorage;
+
 using aiof.portal.server.Data;
 using aiof.portal.server.Services;
 
@@ -35,6 +37,7 @@ namespace aiof.portal.server
                 })
                 .SetHandlerLifetime(TimeSpan.FromMinutes(5));
 
+            services.AddBlazoredLocalStorage();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();

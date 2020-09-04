@@ -3,9 +3,14 @@
 @using System.Text;
 @using System.Text.Json;
 
+@using Blazored.LocalStorage;
+
+@using aiof.portal.server.Data;
 @using aiof.portal.server.Services;
 
 @inject IAuthService _authService
+@inject ILocalStorageService _storageService
+@inject NavigationManager _navManager
 
 <div class="container">
     <div class="col-md-6 offset-md-3 col-xs-12  text-center">
@@ -43,11 +48,23 @@
 </div>
 
 @code {
-    private string username { get; set; }
-    private string password { get; set; }
+    private string username;
+    private string password;
+    [Parameter] public User user { get; set; }
 
     private async Task LoginAsync()
     {
-        await _authService.LoginAsync(username, password);
+        user = await _authService.LoginAsync(username, password);
+        var k = 1;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await _storageService.SetItemAsync(Keys.User, JsonSerializer.Serialize(user));
+        var name = await _storageService.GetItemAsync<string>(Keys.User);
+        var k = 1;
+
+        if (user != null)
+            _navManager.NavigateTo("/");
     }
 }

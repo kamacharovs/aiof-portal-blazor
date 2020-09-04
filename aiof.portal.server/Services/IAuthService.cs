@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
 
+using aiof.portal.server.Data;
+
 namespace aiof.portal.server.Services
 {
     public interface IAuthService
     {
-        Task LoginAsync(
+        Task<User> LoginAsync(
             string username, 
             string password);
     }
