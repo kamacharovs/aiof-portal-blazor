@@ -1,0 +1,25 @@
+﻿@page "/login"
+
+@using System.Text;
+@using System.Text.Json;
+
+@using aiof.portal.server.Services;
+
+@inject IAuthService _authService
+
+<h3>Login</h3>
+
+<button @onclick="PrintWebApiResponse">Print Web API Response</button>
+
+@code {
+    private string username { get; set; }
+    private string password { get; set; }
+
+    private async Task PrintWebApiResponse()
+    {
+        username = "gkama";
+        password = "pass1234";
+        await _authService.LoginAsync(username, password);
+    }
+
+}
