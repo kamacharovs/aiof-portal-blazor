@@ -8,6 +8,8 @@ using System.Net.Http;
 
 using Microsoft.AspNetCore.Components;
 
+using Blazored.LocalStorage;
+
 using aiof.portal.Models;
 
 namespace aiof.portal.Services
@@ -17,8 +19,6 @@ namespace aiof.portal.Services
         public readonly IAuthClient _client;
         public readonly ILocalStorageService _localStorageService;
         public readonly NavigationManager _navigationManager;
-
-        public User User { get; private set; }
 
         public AuthService(
             IAuthClient client,
@@ -30,22 +30,21 @@ namespace aiof.portal.Services
             _navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
         }
 
-        public async Task Initialize()
-        {
-            User = await _localStorageService.GetItemAsync<User>(Keys.User);
-        }
-
         public async Task LoginAsync(
             string username,
             string password)
         {
-            var user = await _client.LoginAsync(username, password);     
-            await _localStorageService.SetItemAsync(Keys.User, user);
+            var resp = await _client.LoginAsync(username, password);
+
+            if(resp.IsSuccessStatusCode)
+            {
+                var user = JsonSerializer.Deserialize<User>(await resp.Content.ReadAsByteArrayAsync());
+                await _localStorageService.SetItemAsync(Keys.User, user);
+            }
         }
 
         public async Task LogoutAsync()
         {
-            User = null;
             await _localStorageService.RemoveItemAsync(Keys.User);
             _navigationManager.NavigateTo("login");
         }

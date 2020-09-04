@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using Blazored.LocalStorage;
+
 using aiof.portal.Services;
 
 namespace aiof.portal
@@ -23,10 +25,11 @@ namespace aiof.portal
             builder.Services.AddAuthorizationCore();
             builder.Services
                 .AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) })
+                .AddScoped<AuthenticationStateProvider, AiofAuthenticationStateProvider>()
                 .AddScoped<IAuthClient, AuthClient>()
-                .AddScoped<ILocalStorageService, LocalStorageService>()
                 .AddScoped<ICookieStorageService, CookieStorageService>()
-                .AddScoped<IAuthService, AuthService>()               
+                .AddScoped<IAuthService, AuthService>()
+                .AddBlazoredLocalStorage()
                 .AddLogging();
 
             builder.RootComponents.Add<App>("app");

@@ -8,8 +8,6 @@ namespace aiof.portal.Services
 {
     public interface IAuthService
     {
-        User User { get; }
-        Task Initialize();
         Task LoginAsync(
             string username,
             string password);
