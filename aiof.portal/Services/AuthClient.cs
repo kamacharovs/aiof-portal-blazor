@@ -24,8 +24,6 @@ namespace aiof.portal.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _client = client ?? throw new ArgumentNullException(nameof(client));
-
-            //_client.BaseAddress = new Uri("http://localhost:5000");
         }
 
         public async Task<HttpResponseMessage> LoginAsync(

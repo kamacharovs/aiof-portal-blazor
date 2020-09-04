@@ -1,5 +1,6 @@
 @page "/login"
 
+@inject HttpClient _client
 @inject IAuthService _authService
 
 <div class="container">
@@ -45,6 +46,6 @@
 
     private async Task LoginAsync()
     {
-        await _authService.LoginAsync(username, password);
+        //await _authService.LoginAsync(username, password);
     }
 }
