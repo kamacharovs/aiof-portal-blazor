@@ -8,9 +8,8 @@ namespace aiof.portal.Services
 {
     public interface IAuthService
     {
-        Task LoginAsync(
+        Task<User> LoginAsync(
             string username,
             string password);
-        Task LogoutAsync();
     }
 }

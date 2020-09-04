@@ -1,7 +1,10 @@
 @page "/login"
 
-@inject HttpClient _client
+@using Blazored.LocalStorage
+
 @inject IAuthService _authService
+@inject ILocalStorageService _storageService
+@inject NavigationManager _navManager
 
 <div class="container">
     <div class="col-md-6 offset-md-3 col-xs-12  text-center">
@@ -46,6 +49,11 @@
 
     private async Task LoginAsync()
     {
-        //await _authService.LoginAsync(username, password);
+        var user = await _authService.LoginAsync(username, password);
+        await _storageService.SetItemAsync(Keys.User, user);
+        var userInStorage = await _storageService.GetItemAsync<User>(Keys.User);
+        var k = 1;
+
+        _navManager.NavigateTo("/");
     }
 }

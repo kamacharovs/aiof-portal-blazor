@@ -19,39 +19,24 @@ namespace aiof.portal.Services
 {
     public class AuthService : IAuthService
     {
-        public readonly IAuthClient _client;
-        public readonly ILocalStorageService _localStorageService;
-        public readonly AuthenticationStateProvider _authenticationStateProvider;
-        public readonly NavigationManager _navigationManager;
+        public readonly HttpClient _client;
+        public readonly ILocalStorageService _storageService;
 
         public AuthService(
-            IAuthClient client,
-            ILocalStorageService localStorageService,
-            AuthenticationStateProvider authenticationStateProvider,
-            NavigationManager navigationManager)
+            HttpClient client,
+            ILocalStorageService storageService)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
-            _localStorageService = localStorageService ?? throw new ArgumentNullException(nameof(localStorageService));
-            _authenticationStateProvider = authenticationStateProvider ?? throw new ArgumentNullException(nameof(authenticationStateProvider));
-            _navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
+            _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
         }
 
-        public async Task LoginAsync(
+        public async Task<User> LoginAsync(
             string username,
             string password)
         {
-            var resp = (await _client.LoginAsync(username, password)).EnsureSuccessStatusCode();
-
-            var user = JsonSerializer.Deserialize<User>(await resp.Content.ReadAsByteArrayAsync());
-            await _localStorageService.SetItemAsync(Keys.User, user);
-            await _authenticationStateProvider.GetAuthenticationStateAsync();
-            _navigationManager.NavigateTo("/");
-        }
-
-        public async Task LogoutAsync()
-        {
-            await _localStorageService.RemoveItemAsync(Keys.User);
-            _navigationManager.NavigateTo("login");
+            var payload = JsonSerializer.Serialize(new { username, password });
+            var resp = await _client.PostAsync("/auth/token", new StringContent(payload, Encoding.UTF8, "application/json"));
+            return JsonSerializer.Deserialize<User>(await resp.Content.ReadAsByteArrayAsync());
         }
     }
 }
