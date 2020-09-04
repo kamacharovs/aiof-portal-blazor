@@ -47,15 +47,6 @@
 
     private async Task LoginAsync()
     {
-        var resp = await _authService.LoginAsync(username, password);
-        if (resp.IsSuccessStatusCode)
-        {
-            var user = JsonSerializer.Deserialize<User>(await resp.Content.ReadAsStringAsync());
-
-            await _storageService.SetItemAsync(nameof(User).ToLowerInvariant(), user);
-            //await _authenticationStateProvider.GetAuthenticationStateAsync();
-
-            _navigationManager.NavigateTo("/");
-        }
+        await _authService.LoginAsync(username, password);
     }
 }
