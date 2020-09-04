@@ -181,3 +181,77 @@ app {
         display: block;
     }
 }
+
+
+.round-border-box {
+    background: #fff;
+    display: block;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px !important;
+    box-shadow: 0 8px 14px 0 rgba(0,0,0,.06);
+    min-width: 264px;
+    margin-bottom: 0.5rem;
+}
+
+.tiny-padding {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.cool-link {
+    margin-bottom: 10px;
+    display: inline-block;
+    color: #000;
+    text-decoration: none;
+}
+
+    .cool-link::after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 1px;
+        background: #000;
+        transition: width .3s;
+    }
+
+    .cool-link:hover {
+        text-decoration: none;
+        color: inherit;
+    }
+
+        .cool-link:hover:after {
+            width: 100%;
+            transition: width .3s;
+        }
+
+    .cool-link:focus {
+        text-decoration: none;
+    }
+
+    .cool-link:visited {
+        text-decoration: none;
+    }
+
+    .cool-link:link {
+        text-decoration: none;
+    }
+
+    .cool-link:active {
+        text-decoration: none;
+    }
+
+    .cool-link .outer {
+        display: block;
+    }
+
+.inline-label {
+    top: 18px;
+    left: 6px;
+    position: relative;
+    background-color: white;
+    padding: 0px 5px 0px 5px;
+    font-size: 0.9em;
+    font-weight: 500;
+}

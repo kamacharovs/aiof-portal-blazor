@@ -35,10 +35,8 @@ namespace aiof.portal.server
                 })
                 .SetHandlerLifetime(TimeSpan.FromMinutes(5));
 
-            //services.AddHttpClient();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            //services.AddScoped<IAuthService, AuthService>();
             services.AddSingleton<WeatherForecastService>();
         }
 
