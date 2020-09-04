@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace aiof.portal.Services
 {
-    public class AuthClient
+    public class AuthClient : IAuthClient
     {
         private readonly ILogger _logger;
         private readonly HttpClient _client;
