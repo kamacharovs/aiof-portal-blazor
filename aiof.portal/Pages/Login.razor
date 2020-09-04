@@ -2,7 +2,7 @@
 
 @inject NavigationManager _navigationManager
 @inject AuthenticationStateProvider _authenticationStateProvider
-@inject IAuthClient _client
+@inject IAuthService _authService
 @inject ILocalStorageService _storageService
 
 <div class="container">
@@ -48,7 +48,7 @@
 
     private async Task LoginAsync()
     {
-        var resp = await _client.LoginAsync(username, password);
+        var resp = await _authService.LoginAsync(username, password);
         if (resp.IsSuccessStatusCode)
         {
             var user = JsonSerializer.Deserialize<User>(await resp.Content.ReadAsStringAsync());
