@@ -24,7 +24,7 @@ namespace aiof.portal
 
             builder.Services.AddAuthorizationCore();
             builder.Services
-                .AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) })
+                .AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5000") })
                 .AddScoped<AuthenticationStateProvider, AiofAuthenticationStateProvider>()
                 .AddScoped<IAuthClient, AuthClient>()
                 .AddScoped<ICookieStorageService, CookieStorageService>()

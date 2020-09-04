@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Net.Http.Json;
 
 using Microsoft.AspNetCore.Components;
 
@@ -39,15 +40,12 @@ namespace aiof.portal.Services
             string username,
             string password)
         {
-            var resp = await _client.LoginAsync(username, password);
+            var resp = (await _client.LoginAsync(username, password)).EnsureSuccessStatusCode();
 
-            if(resp.IsSuccessStatusCode)
-            {
-                var user = JsonSerializer.Deserialize<User>(await resp.Content.ReadAsByteArrayAsync());
-                await _localStorageService.SetItemAsync(Keys.User, user);                
-                await _authenticationStateProvider.GetAuthenticationStateAsync();
-                _navigationManager.NavigateTo("/");
-            }
+            var user = JsonSerializer.Deserialize<User>(await resp.Content.ReadAsByteArrayAsync());
+            await _localStorageService.SetItemAsync(Keys.User, user);
+            await _authenticationStateProvider.GetAuthenticationStateAsync();
+            _navigationManager.NavigateTo("/");
         }
 
         public async Task LogoutAsync()
