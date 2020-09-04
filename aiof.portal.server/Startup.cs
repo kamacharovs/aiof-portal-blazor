@@ -28,9 +28,9 @@ namespace aiof.portal.server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient<IAuthService, AuthService>("auth", x =>
+            services.AddHttpClient<IAuthService, AuthService>(Keys.Auth, x =>
                 {
-                    x.BaseAddress = new Uri("http://localhost:5000");
+                    x.BaseAddress = new Uri(_config[Keys.AuthBaseUrl]);
                     x.DefaultRequestHeaders.Add("Accept", "application/json");
                 })
                 .SetHandlerLifetime(TimeSpan.FromMinutes(5));
