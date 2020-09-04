@@ -50,20 +50,16 @@
 @code {
     private string username;
     private string password;
-    [Parameter] public User user { get; set; }
 
     private async Task LoginAsync()
     {
-        user = await _authService.LoginAsync(username, password);
-        var k = 1;
+        var user = await _authService.LoginAsync(username, password);
+        await _storageService.SetItemAsync(Keys.User, JsonSerializer.Serialize(user));
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await _storageService.SetItemAsync(Keys.User, JsonSerializer.Serialize(user));
-        var name = await _storageService.GetItemAsync<string>(Keys.User);
-        var k = 1;
-
+        var user = await _storageService.GetItemAsync<string>(Keys.User);
         if (user != null)
             _navManager.NavigateTo("/");
     }
