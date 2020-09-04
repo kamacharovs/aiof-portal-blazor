@@ -25,6 +25,7 @@ namespace aiof.portal
                 .AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) })
                 .AddScoped<IAuthClient, AuthClient>()
                 .AddScoped<ILocalStorageService, LocalStorageService>()
+                .AddScoped<ICookieStorageService, CookieStorageService>()
                 .AddScoped<IAuthService, AuthService>()               
                 .AddLogging();
 
