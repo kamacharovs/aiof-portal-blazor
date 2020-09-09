@@ -18,7 +18,7 @@ namespace aiof.portal
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5000") })
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5000") });
             builder.Services.AddLogging();
 
             builder.RootComponents.Add<App>("app");
