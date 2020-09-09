@@ -10,10 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using Blazored.LocalStorage;
-
-using aiof.portal.Services;
-
 namespace aiof.portal
 {
     public class Program
@@ -22,14 +18,8 @@ namespace aiof.portal
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            builder.Services.AddAuthorizationCore();
-            builder.Services
-                .AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5000") })
-                .AddScoped<IAuthService, AuthService>()
-                .AddScoped<AuthenticationStateProvider, AiofAuthenticationStateProvider>()
-                .AddScoped<ICookieStorageService, CookieStorageService>()
-                .AddBlazoredLocalStorage()
-                .AddLogging();
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5000") })
+            builder.Services.AddLogging();
 
             builder.RootComponents.Add<App>("app");
 
