@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using aiof.portal.Models;
+
 namespace aiof.portal
 {
     public class Program
@@ -18,7 +20,7 @@ namespace aiof.portal
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5000") });
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration[Keys.AuthBaseUrl]) });
             builder.Services.AddLogging();
 
             builder.RootComponents.Add<App>("app");
