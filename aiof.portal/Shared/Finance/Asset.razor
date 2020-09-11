@@ -1,0 +1,17 @@
+<div>
+    <MatTextField @bind-Value="@MyString4" Label="Standard" Outlined="true"></MatTextField>
+</div>
+ 
+@code {
+    public string MyString4
+    {
+        get => _myString4;
+        set
+        {
+            _myString4 = value;
+            this.StateHasChanged();
+        }
+    }
+
+    private string _myString4;
+}
