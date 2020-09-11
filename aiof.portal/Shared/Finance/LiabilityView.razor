@@ -1,0 +1,32 @@
+@if (liabilities == null)
+{
+    <p><em>No liabilities to show...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var liability in liabilities)
+            {
+                <tr>
+                    <td>@liability.Name</td>
+                    <td>@liability.TypeName</td>
+                    <td>@liability.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    [Parameter]
+    public List<Liability> liabilities { get; set; }
+}
